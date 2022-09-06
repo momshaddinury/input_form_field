@@ -24,6 +24,10 @@ class InputFormField extends StatefulWidget {
     this.labelTextStyle,
     this.errorTextStyle,
     this.floatingLabelBehavior,
+    this.suffix,
+    this.prefix,
+    this.isPasswordField = false,
+    this.obscureText,
     this.validator,
     this.disableDefaultValidation = true,
     this.height,
@@ -34,7 +38,9 @@ class InputFormField extends StatefulWidget {
     this.disableBorder = false,
     this.fillColor = Colors.white,
     this.errorColor = Colors.red,
-  }) : super(key: key);
+  })  : assert(!(isPasswordField && obscureText != null),
+            """Both can't be used at the same time. Use isPasswordTrue to handle password visibility internally. To handle externally use obscureText"""),
+        super(key: key);
 
   final TextEditingController textEditingController;
 
@@ -57,6 +63,18 @@ class InputFormField extends StatefulWidget {
 
   /// If null, InputDecorationTheme.floatingLabelBehavior will be used.
   final FloatingLabelBehavior? floatingLabelBehavior;
+
+  /// Optional widget to place on the line before the input.
+  final Widget? prefix;
+
+  /// Optional widget to place on the line after the input.
+  final Widget? suffix;
+
+  /// To treat the field as password field.
+  final bool isPasswordField;
+
+  /// Obscure text, helps with password visibility toggle.
+  final bool? obscureText;
 
   /// Signature for validating a form field.
   ///
@@ -102,6 +120,7 @@ class InputFormField extends StatefulWidget {
 
 class _InputFormFieldState extends State<InputFormField> {
   bool isError = false;
+  bool _showPassword = false;
   String? feedback;
 
   @override
@@ -123,12 +142,10 @@ class _InputFormFieldState extends State<InputFormField> {
           ),
           child: TextFormField(
             controller: widget.textEditingController,
+            textAlignVertical: TextAlignVertical.center,
+            style: const TextStyle(textBaseline: TextBaseline.alphabetic),
             decoration: InputDecoration(
-              contentPadding: widget.contentPadding ??
-                  const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 10,
-                  ),
+              contentPadding: widget.contentPadding ?? _defaultConentPadding(),
               labelText: widget.labelText,
               labelStyle: widget.labelTextStyle,
               hintText: widget.hintText,
@@ -141,7 +158,13 @@ class _InputFormFieldState extends State<InputFormField> {
 
               /// Borders are intentionally disabled
               border: InputBorder.none,
+              prefixIcon: widget.prefix,
+              suffixIcon: widget.suffix ??
+                  (widget.isPasswordField ? _visibilityButton() : null),
             ),
+            obscureText: widget.isPasswordField
+                ? _showPassword
+                : widget.obscureText ?? false,
             onChanged: (String? v) {
               if (isError) {
                 setState(() => isError = false);
@@ -177,6 +200,27 @@ class _InputFormFieldState extends State<InputFormField> {
             ),
           )
       ],
+    );
+  }
+
+  EdgeInsets _defaultConentPadding() {
+    return const EdgeInsets.symmetric(
+      horizontal: 10,
+      vertical: 10,
+    );
+  }
+
+  IconButton _visibilityButton() {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          _showPassword = !_showPassword;
+        });
+      },
+      icon: _showPassword
+          ? const Icon(Icons.visibility)
+          : const Icon(Icons.visibility_off),
+      splashColor: Colors.transparent,
     );
   }
 }
