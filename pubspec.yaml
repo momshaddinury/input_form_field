@@ -1,6 +1,6 @@
 name: input_form_field
 description: Input form field is a StatefulWidget that contains a TextFormField. A convinient widget aiming to simplify complexitiy of default TextFormField widget.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/dinurymomshad/input_form_field
 repository: https://github.com/dinurymomshad/input_form_field
 

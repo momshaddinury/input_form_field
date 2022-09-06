@@ -130,7 +130,7 @@ class _InputFormFieldState extends State<InputFormField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: widget.height ?? 48,
+          height: widget.height ?? 56,
           decoration: BoxDecoration(
             color: widget.fillColor,
             borderRadius: widget.borderRadius,

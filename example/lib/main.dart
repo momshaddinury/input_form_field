@@ -30,12 +30,48 @@ class DemoScreen extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              /// Standard
+              /// Standard - Outlined Border
               InputFormField(
                 textEditingController: _controller,
-                height: 56,
                 labelText: "Label Text",
                 hintText: "Hint Text",
+              ),
+              /// Default Password Field
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Password",
+                hintText: "*****",
+                isPasswordField: true,
+              ),
+              /// No Border
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Label Text",
+                hintText: "Hint Text",
+                disableBorder: false,
+              ),
+              /// Filled
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Label Text",
+                hintText: "Hint Text",
+                disableBorder: false,
+                fillColor: Colors.blue.withOpacity(0.10),
+              ),
+              /// Label will always show
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Label Text",
+                hintText: "Hint Text",
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+              ),
+              /// Rounded Border
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Label Text",
+                hintText: "Hint Text",
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                borderRadius: BorderRadius.circular(10),
               ),
             ],
           ),
