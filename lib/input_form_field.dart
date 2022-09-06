@@ -18,6 +18,7 @@ class InputFormField extends StatefulWidget {
   const InputFormField({
     Key? key,
     required this.textEditingController,
+    this.style,
     this.hintText,
     this.hintTextStyle,
     this.labelText,
@@ -36,13 +37,16 @@ class InputFormField extends StatefulWidget {
     this.borderRadius,
     this.borderColor = Colors.blue,
     this.disableBorder = false,
-    this.fillColor = Colors.white,
+    this.fillColor,
     this.errorColor = Colors.red,
   })  : assert(!(isPasswordField && obscureText != null),
             """Both can't be used at the same time. Use isPasswordTrue to handle password visibility internally. To handle externally use obscureText"""),
         super(key: key);
 
   final TextEditingController textEditingController;
+
+  /// The style to use for the text being edited.
+  final TextStyle? style;
 
   /// Optional text that describes the input field.
   final String? labelText;
@@ -108,7 +112,7 @@ class InputFormField extends StatefulWidget {
   final bool disableBorder;
 
   /// The color for the container background
-  final Color fillColor;
+  final Color? fillColor;
 
   /// The color for the error, applies to everywhere that reacts to input
   /// validation error
@@ -120,7 +124,7 @@ class InputFormField extends StatefulWidget {
 
 class _InputFormFieldState extends State<InputFormField> {
   bool isError = false;
-  bool _showPassword = false;
+  bool _showPassword = true;
   String? feedback;
 
   @override
@@ -143,7 +147,7 @@ class _InputFormFieldState extends State<InputFormField> {
           child: TextFormField(
             controller: widget.textEditingController,
             textAlignVertical: TextAlignVertical.center,
-            style: const TextStyle(textBaseline: TextBaseline.alphabetic),
+            style: widget.style,
             decoration: InputDecoration(
               contentPadding: widget.contentPadding ?? _defaultConentPadding(),
               labelText: widget.labelText,
