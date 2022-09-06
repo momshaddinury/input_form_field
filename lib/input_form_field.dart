@@ -1,12 +1,19 @@
 /// Author: Momshad Dinury
 /// Github: @dinurymomshad
 /// Date: 06/09/2022
+///
+/// Use of this source code is governed by a BSD-style license that can be
+/// found in the LICENSE file.
 
 library input_form_field;
 
 import 'package:flutter/material.dart';
 
 /// Input form field
+///
+/// A [StatefulWidget] that contains a [TextFormField]. A convinient widget aiming
+/// to simplify complexitiy of default [TextFormField] widget.
+
 class InputFormField extends StatefulWidget {
   const InputFormField({
     Key? key,
@@ -33,13 +40,15 @@ class InputFormField extends StatefulWidget {
   /// Optional text that describes the input field.
   final String? labelText;
 
-  /// If null, defaults to a value derived from the base TextStyle for the input field and the current Theme.
+  /// If null, defaults to a value derived from the base TextStyle for the input
+  /// field and the current Theme.
   final TextStyle? labelTextStyle;
 
   /// Text that suggests what sort of input the field accepts.
   final String? hintText;
 
-  /// If null, defaults to a value derived from the base TextStyle for the input field and the current Theme.
+  /// If null, defaults to a value derived from the base TextStyle for the input
+  /// field and the current Theme.
   final TextStyle? hintTextStyle;
 
   /// WARNING: This is custom text style for error widget
@@ -54,10 +63,12 @@ class InputFormField extends StatefulWidget {
   /// otherwise.
   final String? Function(String?)? validator;
 
-  /// Enables default validation. Takes care of null and empty value check if enabled
+  /// Enables default validation. Takes care of null and empty value check if
+  /// enabled
   final bool disableDefaultValidation;
 
-  /// If null, defaults to 48px in order to comply with Material spec's minimum interactive size guideline
+  /// If null, defaults to 48px in order to comply with Material spec's minimum
+  /// interactive size guideline
   final double? height;
 
   /// The padding for the input decoration's container. Defaults to 10px horizontally
