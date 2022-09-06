@@ -30,8 +30,9 @@ class InputFormField extends StatefulWidget {
     this.contentPadding,
     this.errorPadding,
     this.borderRadius,
-    this.fillColor = Colors.white,
     this.borderColor = Colors.blue,
+    this.disableBorder = false,
+    this.fillColor = Colors.white,
     this.errorColor = Colors.red,
   }) : super(key: key);
 
@@ -79,14 +80,17 @@ class InputFormField extends StatefulWidget {
   /// 5px from top
   final EdgeInsetsGeometry? errorPadding;
 
+  /// The color for the container border
+  final Color borderColor;
+
   /// If non-null, the corners of this box are rounded by this [BorderRadius]
   final BorderRadiusGeometry? borderRadius;
 
+  /// Toggle this if you don't want outlined border
+  final bool disableBorder;
+
   /// The color for the container background
   final Color fillColor;
-
-  /// The color for the container border
-  final Color borderColor;
 
   /// The color for the error, applies to everywhere that reacts to input
   /// validation error
@@ -111,9 +115,11 @@ class _InputFormFieldState extends State<InputFormField> {
           decoration: BoxDecoration(
             color: widget.fillColor,
             borderRadius: widget.borderRadius,
-            border: Border.all(
-              color: isError ? widget.errorColor : widget.borderColor,
-            ),
+            border: widget.disableBorder
+                ? null
+                : Border.all(
+                    color: isError ? widget.errorColor : widget.borderColor,
+                  ),
           ),
           child: TextFormField(
             controller: widget.textEditingController,
