@@ -2,6 +2,8 @@ name: input_form_field
 description: A new Flutter package project.
 version: 0.0.1
 homepage: https://github.com/dinurymomshad/input_form_field
+repository: https://github.com/dinurymomshad/input_form_field
+
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
