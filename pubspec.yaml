@@ -1,5 +1,5 @@
 name: input_form_field
-description: A new Flutter package project.
+description: Input form field is a StatefulWidget that contains a TextFormField. A convinient widget aiming to simplify complexitiy of default TextFormField widget.
 version: 0.0.1
 homepage: https://github.com/dinurymomshad/input_form_field
 repository: https://github.com/dinurymomshad/input_form_field
