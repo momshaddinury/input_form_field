@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 /// to simplify complexitiy of default [TextFormField] widget.
 
 class InputFormField extends StatefulWidget {
-  const InputFormField({
+  InputFormField({
     Key? key,
     required this.textEditingController,
     this.style,
@@ -27,10 +27,11 @@ class InputFormField extends StatefulWidget {
     this.floatingLabelBehavior,
     this.suffix,
     this.prefix,
-    this.isPasswordField = false,
+    this.password,
     this.obscureText,
+    this.obscuringCharacter = '•',
     this.validator,
-    this.disableDefaultValidation = true,
+    this.enableDefaultValidation = false,
     this.height,
     this.contentPadding,
     this.errorPadding,
@@ -40,8 +41,9 @@ class InputFormField extends StatefulWidget {
     this.borderColor = Colors.blue,
     this.fillColor,
     this.errorColor = Colors.red,
-  })  : assert(
-          !(isPasswordField && obscureText != null),
+  })  : assert(obscuringCharacter.isNotNull && obscuringCharacter.length == 1),
+        assert(
+          !(password.isNotNull && obscureText.isNotNull),
           """Both can't be used at the same time. Use isPasswordTrue to handle password visibility internally. To handle externally use obscureText""",
         ),
         super(key: key);
@@ -77,14 +79,18 @@ class InputFormField extends StatefulWidget {
   /// Optional widget to place on the line after the input.
   final Widget? suffix;
 
-  /// Treats the field as password field. This also handles input visibility
-  /// and showing the visibility icon.
+  /// Treats the field as password field.
   ///
-  /// One should use this param if they want to handle
-  final bool isPasswordField;
+  /// Handles visibility toggle by default.
+  /// Supports icon customization
+  final EnabledPassword? password;
+
 
   /// Obscure text, helps with password visibility toggle.
   final bool? obscureText;
+
+  /// Default '•'.
+  final String obscuringCharacter;
 
   /// Signature for validating a form field.
   ///
@@ -94,7 +100,7 @@ class InputFormField extends StatefulWidget {
 
   /// Enables default validation. Takes care of null and empty value check if
   /// enabled
-  final bool disableDefaultValidation;
+  final bool enableDefaultValidation;
 
   /// If null, defaults to 48px in order to comply with Material spec's minimum
   /// interactive size guideline
@@ -122,8 +128,9 @@ class InputFormField extends StatefulWidget {
   final Color borderColor;
 
   /// If non-null, the corners of this box are rounded by this [BorderRadius]
-  /// A [borderRadius] can only be given for a uniform Border. Which means, only
-  /// use [borderRaidus] when borderType is [BorderType.outlined]
+  /// A [borderRadius] can only be given for a uniform Border.
+  ///
+  /// Default border radius is 8px
   final BorderRadiusGeometry? borderRadius;
 
   /// The color for the container background
@@ -155,11 +162,7 @@ class _InputFormFieldState extends State<InputFormField> {
             color: widget.fillColor,
             borderRadius: widget.borderRadius ??
                 _getDefaultBorderRadius(isOutlinedBorder),
-            border: widget.borderType == BorderType.none
-                ? null
-                : isOutlinedBorder
-                    ? Border.all(color: _getBorderColor())
-                    : Border(bottom: BorderSide(color: _getBorderColor())),
+            border: _getBorder(isOutlinedBorder),
           ),
           child: TextFormField(
             controller: widget.textEditingController,
@@ -181,11 +184,14 @@ class _InputFormFieldState extends State<InputFormField> {
               border: InputBorder.none,
               prefixIcon: widget.prefix,
               suffixIcon: widget.suffix ??
-                  (widget.isPasswordField ? _visibilityButton() : null),
+                  (widget.password.isNotNull
+                      ? _visibilityButton(widget.password!)
+                      : null),
             ),
-            obscureText: widget.isPasswordField
+            obscureText: widget.password.isNotNull
                 ? _showPassword
                 : widget.obscureText ?? false,
+            obscuringCharacter: widget.obscuringCharacter,
             onChanged: (String? v) {
               if (isError) {
                 setState(() => isError = false);
@@ -194,7 +200,7 @@ class _InputFormFieldState extends State<InputFormField> {
             validator: (String? v) {
               /// Default validation. Fields can't be empty. If you want to disable it
               /// change disableDefaultValidation
-              if (!widget.disableDefaultValidation && v.isNullOrEmpty()) {
+              if (widget.enableDefaultValidation && v.isNullOrEmpty()) {
                 setState(() => isError = true);
                 feedback = "Required";
               } else if (widget.validator != null) {
@@ -205,7 +211,7 @@ class _InputFormFieldState extends State<InputFormField> {
             },
           ),
         ),
-        if (isError && feedback != null)
+        if (isError && feedback.isNotNull)
           Padding(
             padding: widget.errorPadding ??
                 const EdgeInsets.only(
@@ -220,13 +226,23 @@ class _InputFormFieldState extends State<InputFormField> {
                   ),
             ),
           ),
-        if (widget.bottomMargin != null) SizedBox(height: widget.bottomMargin)
+        if (widget.bottomMargin.isNotNull) SizedBox(height: widget.bottomMargin)
       ],
     );
   }
 
+  Border? _getBorder(bool isOutlinedBorder) {
+    return widget.borderType == BorderType.none
+        ? null
+        : isOutlinedBorder
+            ? Border.all(color: _getBorderColor())
+            : Border(bottom: BorderSide(color: _getBorderColor()));
+  }
+
   BorderRadius? _getDefaultBorderRadius(bool isOutlinedBorder) =>
-      isOutlinedBorder ? BorderRadius.circular(8) : null;
+      isOutlinedBorder || widget.fillColor.isNotNull
+          ? BorderRadius.circular(8)
+          : null;
 
   Color _getBorderColor() => isError ? widget.errorColor : widget.borderColor;
 
@@ -237,20 +253,34 @@ class _InputFormFieldState extends State<InputFormField> {
     );
   }
 
-  IconButton _visibilityButton() {
+  IconButton _visibilityButton(EnabledPassword password) {
     return IconButton(
       onPressed: () {
         setState(() => _showPassword = !_showPassword);
       },
       icon: _showPassword
-          ? const Icon(Icons.visibility)
-          : const Icon(Icons.visibility_off),
+          ? password.hidePasswordIcon ?? const Icon(Icons.visibility_off)
+          : password.showPasswordIcon ?? const Icon(Icons.visibility),
       splashColor: Colors.transparent,
     );
   }
 }
 
+class EnabledPassword {
+  EnabledPassword({
+    this.showPasswordIcon,
+    this.hidePasswordIcon,
+  });
+
+  final Widget? showPasswordIcon;
+  final Widget? hidePasswordIcon;
+}
+
 enum BorderType { outlined, bottom, none }
+
+extension _GenericExtension<T> on T? {
+  bool get isNotNull => this != null;
+}
 
 extension _StringExtension on String? {
   bool isNullOrEmpty() => this == null || this!.isEmpty;

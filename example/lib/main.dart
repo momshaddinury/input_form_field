@@ -33,45 +33,94 @@ class DemoScreen extends StatelessWidget {
               /// Standard - Outlined Border
               InputFormField(
                 textEditingController: _controller,
-                labelText: "Label Text",
+                labelText: "Standard - Outlined Border",
                 hintText: "Hint Text",
+                bottomMargin: 10, // Optional
               ),
+
+              /// No Border - Filled
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "No Border - Filled",
+                hintText: "Hint Text",
+                fillColor: Colors.black12,
+                borderType: BorderType.none,
+                bottomMargin: 10, // Optional
+              ),
+
               /// Default Password Field
               InputFormField(
                 textEditingController: _controller,
-                labelText: "Password",
+                labelText: "Default Password",
                 hintText: "*****",
-                isPasswordField: true,
+                password: EnabledPassword(),
+                bottomMargin: 10, // Optional
               ),
-              /// No Border
+
+              /// Customize Default Password Field
               InputFormField(
                 textEditingController: _controller,
-                labelText: "Label Text",
-                hintText: "Hint Text",
-                disableBorder: false,
+                labelText: "Custom Default Password",
+                hintText: "*****",
+                obscuringCharacter: "*",
+                password: EnabledPassword(
+                  showPasswordIcon: const Icon(
+                    Icons.add,
+                    color: Colors.amber,
+                  ),
+                  hidePasswordIcon: const Icon(
+                    Icons.visibility_off_sharp,
+                    color: Colors.amber,
+                  ),
+                ),
+                bottomMargin: 10, // Optional
               ),
-              /// Filled
+
+              /// Custom
               InputFormField(
                 textEditingController: _controller,
-                labelText: "Label Text",
+                labelText: "Custom",
+                labelTextStyle: const TextStyle(fontSize: 25),
                 hintText: "Hint Text",
-                disableBorder: false,
-                fillColor: Colors.blue.withOpacity(0.10),
-              ),
-              /// Label will always show
-              InputFormField(
-                textEditingController: _controller,
-                labelText: "Label Text",
-                hintText: "Hint Text",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-              ),
-              /// Rounded Border
-              InputFormField(
-                textEditingController: _controller,
-                labelText: "Label Text",
-                hintText: "Hint Text",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
+                hintTextStyle: const TextStyle(fontSize: 18),
+                borderColor: Colors.deepOrange,
                 borderRadius: BorderRadius.circular(10),
+                bottomMargin: 10, // Optional
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+              ),
+
+              /// Custom 2
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Custom 2",
+                labelTextStyle: const TextStyle(color: Colors.deepOrange),
+                hintText: "Hint Text",
+                hintTextStyle: const TextStyle(color: Colors.deepOrangeAccent),
+                borderType: BorderType.outlined,
+                borderColor: Colors.deepOrange,
+                bottomMargin: 10, // Optional
+                borderRadius: BorderRadius.circular(10),
+              ),
+
+              /// Custom 3 (Suffix)
+              InputFormField(
+                textEditingController: _controller,
+                prefix: const Icon(Icons.mail),
+                labelText: "Email",
+                hintText: "abc@email.com",
+                borderType: BorderType.outlined,
+                bottomMargin: 10, // Optional
+              ),
+
+              /// Custom 4 (Suffix, Prefix)
+              InputFormField(
+                textEditingController: _controller,
+                prefix: const Icon(Icons.mail),
+                labelText: "Email",
+                hintText: "abc@email.com",
+                suffix: const Icon(Icons.info),
+                borderType: BorderType.outlined,
+                bottomMargin: 10, // Optional
               ),
             ],
           ),

@@ -1,3 +1,14 @@
+## 0.0.4
+
+* **BREAKING** - `disabledBorder` param removed. It's now handled by `BorderType.none`
+* **BREAKING** - Default 56px heigth removed, supports dynamic height.
+* **BREAKING** - `isPasswordField` removed. `Password` added. Supports customizing the default show/hide icon for visibility.
+* **FIX** - Show/Hide password UI logic fixed
+* `obscuringCharacter` support added.
+* `BorderType` introduced. Supports `outlined`, `bottom` and `none`.
+* Added support for `bottomMargin`. No need to wrap `InputFormField` with  `padding` / using `SizedBox` in between text fields to give bttom margin.
+* `disableDefaultValidation` changed to `enableDefaultValidation`
+
 ## 0.0.3
 
 * Closes [Need a parameter or design update to make the Label centered when it's not focused

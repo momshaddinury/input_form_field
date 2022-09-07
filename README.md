@@ -2,12 +2,20 @@
 
 This input form is a wrapper around default TextFormField widget. It is supported by all platforms flutter supports.
 
+## Breaking: (0.0.4)
+* **BREAKING** - `disabledBorder` param removed. It's now handled by `BorderType.none`
+* **BREAKING** - Default 56px heigth removed, supports dynamic height.
+* **BREAKING** - `isPasswordField` removed. `Password` added. Supports customizing the default show/hide icon for visibility.
+* **FIX** - Show/Hide password UI logic fixed
+
 ## Feature:
 - Label text doesn't overlap with Border
-- Fill color support
-- Obscure support by default (if you want to avoid boilerplate)
-- All platform support
+- Default `isNullOrEmpty` validation support
+- Supports bottom margin
+- Dynamic height support
+- Easy password visibility
 - Theme support
+- All platform support
 
 ## Installing
 Install the latest version from [pub](https://pub.dev/packages/input_form_field/install)
@@ -54,9 +62,12 @@ InputFormField(
     textEditingController: _controller,
     labelText: "Password",
     hintText: "*****",
-    isPasswordField: true,
+    password: EnabledPassword(),
 ),
 ```
+
+## Screenshot
+![Screenshot](https://github.com/dinurymomshad/input_form_field/assets/demo.png)
 
 ## Want to contribute:
 Leave a star if this was helpful [Github Repository](https://github.com/dinurymomshad/input_form_field)
