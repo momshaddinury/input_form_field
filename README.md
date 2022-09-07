@@ -54,7 +54,7 @@ InputFormField(
 ),
 ```
 
-Added support for default password handler. By setting isPasswordField to true, one can handle password visibility with less boilerplatec code. 
+Added support for default password handler. By setting isPasswordField to true, one can handle password visibility with less boilerplate code. 
 
 To handle it manually, please use obscureText and suffix
 ```
