@@ -85,7 +85,6 @@ class InputFormField extends StatefulWidget {
   /// Supports icon customization
   final EnabledPassword? password;
 
-
   /// Obscure text, helps with password visibility toggle.
   final bool? obscureText;
 
