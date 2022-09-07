@@ -217,9 +217,7 @@ class _InputFormFieldState extends State<InputFormField> {
   IconButton _visibilityButton() {
     return IconButton(
       onPressed: () {
-        setState(() {
-          _showPassword = !_showPassword;
-        });
+        setState(() => _showPassword = !_showPassword);
       },
       icon: _showPassword
           ? const Icon(Icons.visibility)
@@ -230,12 +228,5 @@ class _InputFormFieldState extends State<InputFormField> {
 }
 
 extension _StringExtension on String? {
-  bool isNullOrEmpty() {
-    if (this == null) {
-      return true;
-    } else if (this!.isEmpty) {
-      return true;
-    }
-    return false;
-  }
+  bool isNullOrEmpty() => this == null || this!.isEmpty;
 }
