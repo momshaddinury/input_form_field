@@ -67,7 +67,7 @@ InputFormField(
 ```
 
 ## Screenshot
-![Screenshot](https://github.com/dinurymomshad/input_form_field/assets/demo.png)
+![Screenshot](https://github.com/dinurymomshad/input_form_field/blob/main/assets/demo.png)
 
 ## Want to contribute:
 Leave a star if this was helpful [Github Repository](https://github.com/dinurymomshad/input_form_field)
