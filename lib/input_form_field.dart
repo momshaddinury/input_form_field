@@ -34,13 +34,16 @@ class InputFormField extends StatefulWidget {
     this.height,
     this.contentPadding,
     this.errorPadding,
+    this.bottomMargin,
+    this.borderType = BorderType.outlined,
     this.borderRadius,
     this.borderColor = Colors.blue,
-    this.disableBorder = false,
     this.fillColor,
     this.errorColor = Colors.red,
-  })  : assert(!(isPasswordField && obscureText != null),
-            """Both can't be used at the same time. Use isPasswordTrue to handle password visibility internally. To handle externally use obscureText"""),
+  })  : assert(
+          !(isPasswordField && obscureText != null),
+          """Both can't be used at the same time. Use isPasswordTrue to handle password visibility internally. To handle externally use obscureText""",
+        ),
         super(key: key);
 
   final TextEditingController textEditingController;
@@ -74,7 +77,10 @@ class InputFormField extends StatefulWidget {
   /// Optional widget to place on the line after the input.
   final Widget? suffix;
 
-  /// To treat the field as password field.
+  /// Treats the field as password field. This also handles input visibility
+  /// and showing the visibility icon.
+  ///
+  /// One should use this param if they want to handle
   final bool isPasswordField;
 
   /// Obscure text, helps with password visibility toggle.
@@ -102,14 +108,23 @@ class InputFormField extends StatefulWidget {
   /// 5px from top
   final EdgeInsetsGeometry? errorPadding;
 
+  /// Bottom margin to create space between intermediate element
+  final double? bottomMargin;
+
+  /// Determines the border type. Border can be [BorderType.outlined] or
+  /// [BorderType.bottom] or [BorderType.none].
+  ///
+  /// Defaults to [BorderType.outlined].
+  /// If you want to disable border use [BorderType.none]
+  final BorderType borderType;
+
   /// The color for the container border
   final Color borderColor;
 
   /// If non-null, the corners of this box are rounded by this [BorderRadius]
+  /// A [borderRadius] can only be given for a uniform Border. Which means, only
+  /// use [borderRaidus] when borderType is [BorderType.outlined]
   final BorderRadiusGeometry? borderRadius;
-
-  /// Toggle this if you don't want outlined border
-  final bool disableBorder;
 
   /// The color for the container background
   final Color? fillColor;
@@ -129,20 +144,22 @@ class _InputFormFieldState extends State<InputFormField> {
 
   @override
   Widget build(BuildContext context) {
+    bool isOutlinedBorder = widget.borderType == BorderType.outlined;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: widget.height ?? 56,
+          height: widget.height,
           decoration: BoxDecoration(
             color: widget.fillColor,
-            borderRadius: widget.borderRadius,
-            border: widget.disableBorder
+            borderRadius: widget.borderRadius ??
+                _getDefaultBorderRadius(isOutlinedBorder),
+            border: widget.borderType == BorderType.none
                 ? null
-                : Border.all(
-                    color: isError ? widget.errorColor : widget.borderColor,
-                  ),
+                : isOutlinedBorder
+                    ? Border.all(color: _getBorderColor())
+                    : Border(bottom: BorderSide(color: _getBorderColor())),
           ),
           child: TextFormField(
             controller: widget.textEditingController,
@@ -202,10 +219,16 @@ class _InputFormFieldState extends State<InputFormField> {
                     color: Colors.red,
                   ),
             ),
-          )
+          ),
+        if (widget.bottomMargin != null) SizedBox(height: widget.bottomMargin)
       ],
     );
   }
+
+  BorderRadius? _getDefaultBorderRadius(bool isOutlinedBorder) =>
+      isOutlinedBorder ? BorderRadius.circular(8) : null;
+
+  Color _getBorderColor() => isError ? widget.errorColor : widget.borderColor;
 
   EdgeInsets _defaultConentPadding() {
     return const EdgeInsets.symmetric(
@@ -226,6 +249,8 @@ class _InputFormFieldState extends State<InputFormField> {
     );
   }
 }
+
+enum BorderType { outlined, bottom, none }
 
 extension _StringExtension on String? {
   bool isNullOrEmpty() => this == null || this!.isEmpty;
