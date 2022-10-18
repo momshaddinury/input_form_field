@@ -1,3 +1,7 @@
+## 0.0.5
+* Screenshots fixed
+* Custom Label added
+
 ## 0.0.4
 
 * **BREAKING** - `disabledBorder` param removed. It's now handled by `BorderType.none`

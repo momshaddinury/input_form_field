@@ -21,6 +21,7 @@ class InputFormField extends StatefulWidget {
     this.style,
     this.hintText,
     this.hintTextStyle,
+    this.label,
     this.labelText,
     this.labelTextStyle,
     this.errorTextStyle,
@@ -52,6 +53,8 @@ class InputFormField extends StatefulWidget {
 
   /// The style to use for the text being edited.
   final TextStyle? style;
+
+  final Widget? label;
 
   /// Optional text that describes the input field.
   final String? labelText;
@@ -155,6 +158,7 @@ class _InputFormFieldState extends State<InputFormField> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (widget.label != null) widget.label!,
         Container(
           height: widget.height,
           decoration: BoxDecoration(

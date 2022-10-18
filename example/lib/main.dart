@@ -30,6 +30,25 @@ class DemoScreen extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
+              /// Basic
+              InputFormField(
+                textEditingController: _controller,
+                bottomMargin: 10,
+              ),
+
+              /// Custom Top Label
+              InputFormField(
+                textEditingController: _controller,
+                label: const Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text("Custom Label"),
+                ),
+                borderRadius: BorderRadius.zero,
+                fillColor: Colors.grey.shade300,
+                bottomMargin: 10,
+                borderType: BorderType.none,
+              ),
+
               /// Standard - Outlined Border
               InputFormField(
                 textEditingController: _controller,
@@ -85,7 +104,8 @@ class DemoScreen extends StatelessWidget {
                 hintTextStyle: const TextStyle(fontSize: 18),
                 borderColor: Colors.deepOrange,
                 borderRadius: BorderRadius.circular(10),
-                bottomMargin: 10, // Optional
+                bottomMargin: 10,
+                // Optional
                 floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
 
@@ -98,7 +118,8 @@ class DemoScreen extends StatelessWidget {
                 hintTextStyle: const TextStyle(color: Colors.deepOrangeAccent),
                 borderType: BorderType.outlined,
                 borderColor: Colors.deepOrange,
-                bottomMargin: 10, // Optional
+                bottomMargin: 10,
+                // Optional
                 borderRadius: BorderRadius.circular(10),
               ),
 
