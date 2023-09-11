@@ -1,5 +1,5 @@
 /// Author: Momshad Dinury
-/// Github: @dinurymomshad
+/// Github: @momshaddinury
 /// Date: 06/09/2022
 ///
 /// Use of this source code is governed by a BSD-style license that can be
@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 
 /// Input form field
 ///
-/// A [StatefulWidget] that contains a [TextFormField]. A convinient widget aiming
-/// to simplify complexitiy of default [TextFormField] widget.
+/// A [StatefulWidget] that contains a [TextFormField]. A handy widget aiming
+/// to simplify complexity of default [TextFormField] widget.
 
 class InputFormField extends StatefulWidget {
   InputFormField({
@@ -42,6 +42,7 @@ class InputFormField extends StatefulWidget {
     this.borderColor = Colors.blue,
     this.fillColor,
     this.errorColor = Colors.red,
+    this.onChanged,
   })  : assert(obscuringCharacter.isNotNull && obscuringCharacter.length == 1),
         assert(
           !(password.isNotNull && obscureText.isNotNull),
@@ -142,6 +143,8 @@ class InputFormField extends StatefulWidget {
   /// validation error
   final Color errorColor;
 
+  final void Function(String?)? onChanged;
+
   @override
   State<InputFormField> createState() => _InputFormFieldState();
 }
@@ -199,6 +202,7 @@ class _InputFormFieldState extends State<InputFormField> {
               if (isError) {
                 setState(() => isError = false);
               }
+              widget.onChanged?.call(v);
             },
             validator: (String? v) {
               /// Default validation. Fields can't be empty. If you want to disable it
