@@ -175,7 +175,7 @@ class _InputFormFieldState extends State<InputFormField> {
             textAlignVertical: TextAlignVertical.center,
             style: widget.style,
             decoration: InputDecoration(
-              contentPadding: widget.contentPadding ?? _defaultConentPadding(),
+              contentPadding: widget.contentPadding ?? _defaultContentPadding(),
               labelText: widget.labelText,
               labelStyle: widget.labelTextStyle,
               hintText: widget.hintText,
@@ -192,7 +192,7 @@ class _InputFormFieldState extends State<InputFormField> {
               suffixIcon: widget.suffix ??
                   (widget.password.isNotNull
                       ? _visibilityButton(widget.password!)
-                      : null),
+                      : const SizedBox.shrink()),
             ),
             obscureText: widget.password.isNotNull
                 ? _showPassword
@@ -253,7 +253,7 @@ class _InputFormFieldState extends State<InputFormField> {
 
   Color _getBorderColor() => isError ? widget.errorColor : widget.borderColor;
 
-  EdgeInsets _defaultConentPadding() {
+  EdgeInsets _defaultContentPadding() {
     return const EdgeInsets.symmetric(
       horizontal: 10,
       vertical: 10,
