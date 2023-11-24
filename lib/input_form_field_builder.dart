@@ -23,6 +23,7 @@ class InputFormField extends StatefulWidget {
     this.prefix,
     this.floatingLabelBehavior,
     this.password,
+    this.isReadOnly,
     this.isObscureText,
   })  : assert(
           config.obscuringCharacter != null &&
@@ -61,6 +62,8 @@ class InputFormField extends StatefulWidget {
 
   /// Obscure text, helps with password visibility toggle.
   final bool? isObscureText;
+
+  final bool? isReadOnly;
 
   /// Signature for validating a form field.
   ///
@@ -124,11 +127,12 @@ class _InputFormFieldState extends State<InputFormField> {
               suffixIcon: widget.suffix ??
                   (widget.password.isNotNull
                       ? _visibilityButton(widget.password!)
-                      : null),
+                      : const SizedBox.shrink()),
             ),
             obscureText: widget.password.isNotNull
                 ? _showPassword
                 : widget.isObscureText ?? false,
+            readOnly: widget.isReadOnly ?? false,
             obscuringCharacter: config.obscuringCharacter!,
             onChanged: (String? v) {
               if (isError) {
