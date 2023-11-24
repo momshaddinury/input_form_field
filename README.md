@@ -5,6 +5,9 @@ This input form is a wrapper around default TextFormField widget. It is supporte
 ## Breaking: (0.0.6)
 * **BREAKING** - `InputFormFieldConfig` singleton class has been introduced. Styling will be handled by `InputFormFieldConfig` class.
 * **BREAKING** - `borderColor``fillColor``height``bottomMargin``labelTextStyle``labelErrorTextStyle``style``errorTextStyle``hintTextStyle``contentPadding``borderRadius``errorPadding``borderType``errorColor``obscuringCharacter` parameter from `InputFormField` has been removed and placed these to `InputFormFieldConfig`.
+* **BREAKING** - `readOnly` feature has been added.
+* **BREAKING** - TextCentre alignment issue has been solved.
+* **BREAKING** - Assets address issue has been resolved
 
 ## Feature: 
 - Styling configurations no longer need to be declared individually.
