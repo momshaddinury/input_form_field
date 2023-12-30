@@ -2,19 +2,21 @@
 
 This input form is a wrapper around default TextFormField widget. It is supported by all platforms flutter supports.
 
-## Breaking: (0.0.4)
-* **BREAKING** - `disabledBorder` param removed. It's now handled by `BorderType.none`
-* **BREAKING** - Default 56px heigth removed, supports dynamic height.
-* **BREAKING** - `isPasswordField` removed. `Password` added. Supports customizing the default show/hide icon for visibility.
-* **FIX** - Show/Hide password UI logic fixed
+## Breaking: (0.0.6)
+* **BREAKING** - `InputFormFieldConfig` singleton class has been introduced. Styling will be handled by `InputFormFieldConfig` class.
+* **BREAKING** - `borderColor``fillColor``height``bottomMargin``labelTextStyle``labelErrorTextStyle``style``errorTextStyle``hintTextStyle``contentPadding``borderRadius``errorPadding``borderType``errorColor``obscuringCharacter` parameter from `InputFormField` has been removed and placed these to `InputFormFieldConfig`.
+* **BREAKING** - `readOnly` feature has been added.
+* **BREAKING** - TextCentre alignment issue has been solved.
+* **BREAKING** - Assets address issue has been resolved
 
-## Feature:
-- Label text doesn't overlap with Border
-- Default `isNullOrEmpty` validation support
-- Supports bottom margin
-- Dynamic height support
-- Easy password visibility
-- Theme support
+## Feature: 
+- Styling configurations no longer need to be declared individually.
+- Label text doesn't overlap with Border 
+- Default isNullOrEmpty validation support 
+- Supports bottom margin 
+- Dynamic height support 
+- Easy password visibility 
+- Theme support 
 - All platform support
 
 ## Installing
@@ -27,47 +29,91 @@ import 'package:input_form_field/input_form_field.dart';
 ```
 
 ## Example
-Default TextFormField, label text overlaps with border. But here, label text is always below the
-border. 
-```
-InputFormField(
-    textEditingController: _controller,
-    labelText: "Label Text",
-    hintText: "Hint Text",   
-)
-```
-Validation error text positon normally can't be changed. But here, the error text position can be 
-moved vertically and horizontally
-```
-InputFormField(
-    textEditingController: _controller,
-    labelText: "Label Text",
-    hintText: "Hint Text",
-    floatingLabelBehavior: FloatingLabelBehavior.always,
-    borderRadius: BorderRadius.circular(10),
-    errorPadding: EdgeInsets.only(left: 10, top: 10),
-    validator: (v) {
-      if(v != null && v.isEmpty) {
-        return "Required";
-      }
-    },
-),
-```
 
-Added support for default password handler. By setting isPasswordField to true, one can handle password visibility with less boilerplate code. 
-
-To handle it manually, please use obscureText and suffix
+Custom style need to be set at `InputFormFieldConfig`
 ```
-InputFormField(
-    textEditingController: _controller,
-    labelText: "Password",
-    hintText: "*****",
-    password: EnabledPassword(),
-),
-```
+InputFormFieldConfig inputFormFieldConfig = InputFormFieldConfig(
+    setBottomMargin: 10,
+    setBorderType: BorderType.outlined,
+);
 
+```
+Added default style for all kind of input form field.
+
+Simple usage's of InputFormField:
+```
+            /// Basic
+              InputFormField(
+                textEditingController: _controller,
+              ),
+
+              /// Custom Top Label
+              InputFormField(
+                textEditingController: _controller,
+                label: const Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text("Custom Label"),
+                ),
+              ),
+
+              /// Standard - Outlined Border
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Standard - Outlined Border",
+                hintText: "Hint Text",
+              ),
+
+              /// No Border - Filled
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "No Border - Filled",
+                hintText: "Hint Text",
+              ),
+
+              /// Default Password Field
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Default Password",
+                hintText: "*****",
+                password: EnabledPassword(),
+              ),
+
+              /// Customize Default Password Field
+              InputFormField(
+                textEditingController: _controller,
+                labelText: "Custom Default Password",
+                hintText: "*****",
+                password: EnabledPassword(
+                  showPasswordIcon: const Icon(
+                    Icons.add,
+                    color: Colors.amber,
+                  ),
+                  hidePasswordIcon: const Icon(
+                    Icons.visibility_off_sharp,
+                    color: Colors.amber,
+                  ),
+                ),
+              ),
+
+              /// Custom (Suffix)
+              InputFormField(
+                textEditingController: _controller,
+                prefix: const Icon(Icons.mail),
+                labelText: "Email",
+                hintText: "abc@email.com",
+              ),
+
+              /// Custom (Suffix, Prefix)
+              InputFormField(
+                textEditingController: _controller,
+                prefix: const Icon(Icons.mail),
+                labelText: "Email",
+                hintText: "abc@email.com",
+                suffix: const Icon(Icons.info),
+              ),
+```
 ## Screenshot
-![Screenshot](https://github.com/dinurymomshad/input_form_field/blob/main/assets/demo.png)
+![Screenshot](/assets/demo.png)
 
 ## Want to contribute:
 Leave a star if this was helpful [Github Repository](https://github.com/dinurymomshad/input_form_field)
